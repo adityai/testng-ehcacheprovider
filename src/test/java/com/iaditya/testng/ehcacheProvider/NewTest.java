@@ -12,10 +12,19 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
+/**
+ * Test suite using ehcache to store the test data with the data provider
+ * 
+ * @author adityai
+ *
+ */
 public class NewTest {
 
 	private Cache cache;
 	
+	/**
+	 * Constructor. Alternatively this can be implemented as BeforeSuite method
+	 */
 	public NewTest() {
 		Map<String, String> dataMap;
 		CacheManager cacheManager = new CacheManager();
@@ -32,6 +41,12 @@ public class NewTest {
 		cache.put(new Element("testMethod2", dataMap));
 	}
 	
+	/**
+	 * Data provider provisioned with ehcache
+	 * 
+	 * @param method
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	@DataProvider(name="ehcacheProvider")
 	public Object[][] getEhCacheData(Method method) {
@@ -44,11 +59,19 @@ public class NewTest {
         return data;
     }
 		
+	/**
+	 * Simple test method
+	 * @param dataMap
+	 */
 	@Test(dataProvider="ehcacheProvider")
 	public void testMethod1(Map<String, String> dataMap) {
 		Assert.assertEquals(dataMap.get("lastName"), "Doe");
 	}
 
+	/**
+	 * Simple test method
+	 * @param dataMap
+	 */
 	@Test(dataProvider="ehcacheProvider")
 	public void testMethod2(Map<String, String> dataMap) {
 		Assert.assertEquals(dataMap.get("lastName"), "Doer");
